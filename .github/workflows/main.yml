@@ -9,6 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: goto-bus-stop/setup-zig@v1
+        with:
+          version: 0.9.1
       - name: Build
         run: zig build
       - name: Deploy
