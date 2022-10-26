@@ -29,7 +29,7 @@ fn addCrossExecutable(alloc: mem.Allocator, b: *std.build.Builder, arch_os_abi: 
     exe.install();
 }
 
-const targets = [_][]const u8{"arm-linux-musleabihf"};
+const targets = [_][]const u8{"arm-linux-musleabihf", "x86_64-linux-musl"};
 
 pub fn build(b: *std.build.Builder) !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
