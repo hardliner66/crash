@@ -45,4 +45,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_paths: '["./zig-out/crash.arm-linux-musleabihf", "./zig-out/crash.x86_64-linux-musl"]'
+          asset_paths: '["./zig-out/bin/crash.arm-linux-musleabihf", "./zig-out/bin/crash.x86_64-linux-musl"]'
