@@ -3,7 +3,7 @@ const mem = std.mem;
 
 const exe_cflags = [_][]const u8{ "-fno-rtti", "-Werror=type-limits", "-Wno-missing-braces", "-Wno-comment", "-g" };
 
-const c_source = "src/main.c";
+const c_source = "src/main.zig";
 
 fn addCrossExecutable(alloc: mem.Allocator, b: *std.build.Builder, arch_os_abi: []const u8, comptime main_binary: bool) !void {
     const binary_name = try std.fmt.allocPrint(alloc, "crash.{s}", .{arch_os_abi});
