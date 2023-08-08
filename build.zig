@@ -10,13 +10,16 @@ fn addCrossExecutable(alloc: mem.Allocator, b: *std.build.Builder, arch_os_abi: 
     defer alloc.free(binary_name);
     const target = try std.zig.CrossTarget.parse(.{ .arch_os_abi = arch_os_abi });
 
-    const exe = b.addExecutable(binary_name, c_source);
+    const exe = b.addExecutable(.{
+        .name = binary_name,
+        .root_source_file = .{ .path = c_source },
+        .target = target,
+        .optimize = .Debug,
+    });
     exe.linkLibC();
-    exe.setTarget(target);
-    exe.setBuildMode(std.builtin.Mode.Debug);
 
     if (main_binary) {
-        const run_cmd = exe.run();
+        const run_cmd = b.addRunArtifact(exe);
         run_cmd.step.dependOn(b.getInstallStep());
         if (b.args) |args| {
             run_cmd.addArgs(args);
@@ -26,10 +29,10 @@ fn addCrossExecutable(alloc: mem.Allocator, b: *std.build.Builder, arch_os_abi: 
         run_step.dependOn(&run_cmd.step);
     }
 
-    exe.install();
+    b.installArtifact(exe);
 }
 
-const targets = [_][]const u8{"arm-linux-musleabihf", "x86_64-linux-musl"};
+const targets = [_][]const u8{ "arm-linux-musleabihf", "x86_64-linux-musl" };
 
 pub fn build(b: *std.build.Builder) !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
